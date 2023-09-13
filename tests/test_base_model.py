@@ -92,7 +92,7 @@ class TestBaseModel_to_dict(unittest.TestCase):
 
     def test_class_name(self):
         '''Tests if __class__ key is added with the class name'''
-        
+
         bm = BaseModel()
         bm.id = '1234567890'
         result = bm.to_dict()
@@ -132,7 +132,16 @@ class TestBaseModel_to_dict(unittest.TestCase):
         self.assertTrue(datetime.strptime(result['created_at'], iso_format))
         self.assertTrue(datetime.strptime(result['updated_at'], iso_format))
 
-
+    def test_only_instance_attributes(self):
+        '''Tests that to_dict returns only instance attributes set'''
+        dt = datetime.now()
+        bm = BaseModel()
+        bm.id = '1234567890'
+        bm.created_at = dt
+        bm_dict = bm.to_dict()
+        self.assertEqual(bm_dict['id'], '1234567890')
+        self.assertEqual(bm_dict['created_at'], dt)
+        self.assertNotIn('mass', bm_dict)
 
 
 if __name__ == "__main__":
