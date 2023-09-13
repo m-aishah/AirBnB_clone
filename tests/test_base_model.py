@@ -2,6 +2,8 @@
 ''' Defines unittests for models/base_model.py. '''
 
 import unittest
+from datetime import datetime
+from time import sleep
 from models.base_model import BaseModel
 
 
@@ -14,7 +16,7 @@ class TestBaseModel_init(unittest.TestCase):
 
     def test_id_is_str(self):
         '''Test that ``id`` is a public string attribute.'''
-        self.assertEqua(type(BaseModel().id), str)
+        self.assertEqual(type(BaseModel().id), str)
 
     def test_unique_ids(self):
         '''Test that two instances of BaseModel have unique ids.'''
@@ -50,6 +52,14 @@ class TestBaseModel_init(unittest.TestCase):
 
     def test_str_method(self):
         '''Test the __str__ public string method.'''
+        dt = datetime.now()
+        bm = BaseModel()
+        bm.id = '1234567890'
+        bm.created_at = dt
+        bm.updated_at = dt
+        expected_str = '[BaseModel] (1234567890) ' + str(bm.__dict__)
+        output_str = bm.__str__()
+        self.assertEqual(expected_str, output_str)
 
 
 if __name__ == "__main__":
