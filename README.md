@@ -16,7 +16,7 @@ API (Application Programming Interface): The API serves as a communication inter
 This project is currently not open to more contributors. The project is maintained by the following contributors:
 
 Ezejanu Dike (Email: Ezejanu@gmail.com)
-Aisha Mabayoje (Email: MD@gmail.com)
+Aisha Mabayoje (Email: maishah2540@gmail.com)
 
 ## Installation
 To run this project locally, follow these steps:
