@@ -2,7 +2,7 @@
 
 
 ## Description
-The goal of this project is to deploy a simplified version of the Airbnb website on our server. This project comprises several components, making it a complete web application:
+The goal of this project is to deploy a simplified version of the [Airbnb website](https://www.airbnb.com/) on our server. This project comprises several components, making it a complete web application:
 
 Command Interpreter: This component allows you to manipulate data without a visual interface, similar to a Shell. It's perfect for development and debugging purposes.
 
@@ -16,7 +16,7 @@ API (Application Programming Interface): The API serves as a communication inter
 This project is currently not open to more contributors. The project is maintained by the following contributors:
 
 Ezejanu Dike (Email: Ezejanu@gmail.com)
-Aisha Mabayoje (Email: maishah2540@gmail.com)
+Aishah Mabayoje (Email: maishah2540@gmail.com)
 
 ## Installation
 To run this project locally, follow these steps:
@@ -27,6 +27,6 @@ To run this project locally, follow these steps:
 4. Access the website in your browser
 
 ## Contact Information
-4. If you have questions or feedback about this project, please feel free to contact the project maintainers:
-	* Aisha Mabayoje
+If you have questions or feedback about this project, please feel free to contact the project maintainers:
+	* Aishah Mabayoje
 	* Ezejanu Dike
