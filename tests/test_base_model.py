@@ -4,6 +4,7 @@
 import unittest
 from models.base_model import BaseModel
 
+
 class TestBaseModel_init(unittest.TestCase):
     '''Unittests for the __init__ method of the BaseModel class.'''
 
@@ -26,7 +27,7 @@ class TestBaseModel_init(unittest.TestCase):
         self.assertEqual(type(BaseModel().created_at), datetime)
 
     def test_created_at_right_time(self):
-        '''Test that two models reated at separate times,
+        '''Test that two models created at separate times,
                             have different ``created_at``.'''
         i1 = BaseModel()
         sleep(1)
@@ -39,7 +40,7 @@ class TestBaseModel_init(unittest.TestCase):
         self.assertEqual(type(BaseModel().updated_at), datetime)
 
     def test_updated_at_right_time(self):
-        '''Test that two models reated at separate times,
+        '''Test that two models created at separate times,
                             have different ``updated_at``.'''
         i1 = BaseModel()
         sleep(1)
@@ -49,3 +50,7 @@ class TestBaseModel_init(unittest.TestCase):
 
     def test_str_method(self):
         '''Test the __str__ public string method.'''
+
+
+if __name__ == "__main__":
+    unittest.main()
