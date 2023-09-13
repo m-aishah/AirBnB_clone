@@ -87,16 +87,16 @@ class TestBaseModel_to_dict(unittest.TestCase):
         '''Tests if to_dict returns a dictionary'''
         bm = BaseModel()
         bm.id = '1234567890'
-        result = bm.to_dict()
-        self.assertEqual(type(result, dict))
+        bm_dict = bm.to_dict()
+        self.assertEqual(type(bm_dict), dict)
 
     def test_class_name(self):
         '''Tests if __class__ key is added with the class name'''
 
         bm = BaseModel()
         bm.id = '1234567890'
-        result = bm.to_dict()
-        self.assertEqual(result['__class__'], 'MyClass')
+        bm_dict = bm.to_dict()
+        self.assertEqual(bm_dict['__class__'], 'BaseModel')
 
     def test_to_dict_output(self):
         '''Tests if created_at and updated_at are datetime objects'''
@@ -107,8 +107,8 @@ class TestBaseModel_to_dict(unittest.TestCase):
         bm.created_at = dt
         bm.updated_at = dt
         bm_dict = bm.to_dict()
-        self.assertEqual(type(bm_dict['created_at'], str))
-        self.assertEqual(type(bm_dict['updated_at'], str))
+        self.assertEqual(type(bm_dict['created_at']), str)
+        self.assertEqual(type(bm_dict['updated_at']), str)
 
     def test_to_dict_updates(self):
         '''Tests that to_dict reflects updated value'''
@@ -128,9 +128,10 @@ class TestBaseModel_to_dict(unittest.TestCase):
         bm.id = '1234567890'
         bm.created_at = dt
         bm.updated_at = dt
+        bm_dict = bm.to_dict()
         iso_format = '%Y-%m-%dT%H:%M:%S.%f'
-        self.assertTrue(datetime.strptime(result['created_at'], iso_format))
-        self.assertTrue(datetime.strptime(result['updated_at'], iso_format))
+        self.assertTrue(datetime.strptime(bm_dict['created_at'], iso_format))
+        self.assertTrue(datetime.strptime(bm_dict['updated_at'], iso_format))
 
     def test_only_instance_attributes(self):
         '''Tests that to_dict returns only instance attributes set'''
@@ -140,7 +141,7 @@ class TestBaseModel_to_dict(unittest.TestCase):
         bm.created_at = dt
         bm_dict = bm.to_dict()
         self.assertEqual(bm_dict['id'], '1234567890')
-        self.assertEqual(bm_dict['created_at'], dt)
+        self.assertEqual(bm_dict['created_at'], dt.isoformat())
         self.assertNotIn('mass', bm_dict)
 
 

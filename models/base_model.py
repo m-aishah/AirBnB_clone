@@ -21,8 +21,8 @@ class BaseModel:
     def to_dict(self):
         '''Return a dict representation fo an instance of BaseModel class.
 
-        - The dict contains all the set instance attributes and a key/value pair:
-            __class__/te name of the class
+        - The dict contains all the set instance attributes.
+        - It also contains a key/value pair: __class__/te name of the class
         - The created_at and updated_at values will be in the iso format.'''
 
         dict_rep = self.__dict__.copy()
@@ -33,5 +33,5 @@ class BaseModel:
         return dict_rep
 
     def __str__(self):
-        ''' Return the str/print representation of an instance of BaseModel class.'''
+        ''' Return the str/print rep of an instance of BaseModel class.'''
         return f'[{self.__class__.__name__}] ({(self.id)}) {self.__dict__}'
