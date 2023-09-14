@@ -46,3 +46,28 @@ class BaseModel:
     def __str__(self):
         ''' Return the str/print rep of an instance of BaseModel class.'''
         return f'[{self.__class__.__name__}] ({(self.id)}) {self.__dict__}'
+
+    print(f'my name')
+
+def main():
+    # Create a dictionary representation of a BaseModel instance
+    bm_dict = {
+        'id': '1234567890',
+        'created_at': '2023-09-13T14:30:00.000000',
+        'updated_at': '2023-09-14T10:15:30.123456',
+        'some_attribute': 'value'
+    }
+
+    # Initialize a BaseModel instance using the dictionary
+    bm = BaseModel(**bm_dict)
+
+    # Verify that attributes are correctly set
+    print(f'id: {bm.id}')
+    print(f'some_attribute: {bm.some_attribute}')
+
+    # Verify that 'created_at' and 'updated_at' are datetime objects
+    print(f'created_at: {bm.created_at}')
+    print(f'updated_at: {bm.updated_at}')
+
+if __name__ == '__main__':
+    main()
