@@ -3,19 +3,27 @@
 
 import uuid
 from datetime import datetime
-
+import models
 
 class BaseModel:
     '''Forms the base class from which other classes will inherit.'''
 
     def __init__(self, **kwargs):
-        '''Create an instance of the BaseModel class.'''
+        '''Create an instance of the BaseModel class.
 
+        Args:
+            *args (any): Not used.
+            **kwargs (dict): Key/value pair of attributes.
+        '''
+
+        time_format = '%Y-%m-%dT%H:%M:%S.%f'
         if kwargs:
             if 'created_at' in kwargs:
-                kwargs['created_at'] = datetime.strptime(kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                kwargs['created_at'] = datetime.strptime(
+                        kwargs['created_at'], time_format)
             if 'updated_at' in kwargs:
-                kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                kwargs['updated_at'] = datetime.strptime(
+                        kwargs['updated_at'], time_format)
             for key, value in kwargs.items():
                 if key != '__class__':
                     setattr(self, key, value)
@@ -24,10 +32,12 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            models.storage.new(self)
 
     def save(self):
         '''Updates updated_at with the current datetime.'''
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         '''Return a dict representation fo an instance of BaseModel class.
