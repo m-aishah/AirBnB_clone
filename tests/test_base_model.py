@@ -144,6 +144,54 @@ class TestBaseModel_to_dict(unittest.TestCase):
         self.assertEqual(bm_dict['created_at'], dt.isoformat())
         self.assertNotIn('mass', bm_dict)
 
+    def test_init_with_empty_kwargs(self):
+        '''Tests the __init__ method with empty kwargs'''
+        bm = BaseModel()
+
+        self.assertIsInstance(bm.id, str)
+        self.assertIsInstance(bm.created_at, datetime)
+  
+    def test_init_with_kwargs(self):
+        '''Tests the __init__ method with valid kwargs'''
+        
+        bm_dict = {
+            'id': '1234567890',
+            'created_at': '2023-09-13T14:30:00.000000',
+            'saved_at': '2023-09-13T15:00:00.000000',
+            'updated_at': '2023-09-14T10:15:30.123456'
+            }
+
+        bm = BaseModel(**bm_dict)
+        self.assertEqual(bm.id, '1234567890')
+        self.assertEqual(bm.created_at, '2023-09-13T14:30:00.000000')
+
+    def test_datetime_objects(self):
+        '''Tests that created_at and updated_at are datetime pbjects'''
+        bm_dict = {
+            'id': '1234567890',
+            'created_at': '2023-09-13T14:30:00.000000',
+            'saved_at': '2023-09-13T15:00:00.000000',
+            'updated_at': '2023-09-14T10:15:30.123456'
+            }
+
+        bm = BaseModel(**bm_dict)
+        self.assertEqual(type(bm.created_at), datetime)
+        self.assertIsInstance(bm.updated_at, datetime)
+
+    def test_init_excludes_class_attribute(self):
+        '''Tests that '__class__' key from kwargs
+            is not added as an attribute'''
+        bm_dict = {
+            'id': '1234567890',
+            'created_at': '2023-09-13T14:30:00.000000',
+            'saved_at': '2023-09-13T15:00:00.000000',
+            'updated_at': '2023-09-14T10:15:30.123456'
+            }
+
+        bm = BaseModel(**bm_dict)
+        self.assertEqual(bm.id, '1234567890')
+        self.assertFalse(hasattr(bm, '__class__')
+
 
 if __name__ == "__main__":
     unittest.main()
