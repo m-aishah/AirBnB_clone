@@ -8,7 +8,7 @@ import models
 class BaseModel:
     '''Forms the base class from which other classes will inherit.'''
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         '''Create an instance of the BaseModel class.
 
         Args:
