@@ -24,6 +24,8 @@ class BaseModel:
             if 'updated_at' in kwargs:
                 kwargs['updated_at'] = datetime.strptime(
                         kwargs['updated_at'], time_format)
+
+            kwargs.pop('__class__', None)
             for key, value in kwargs.items():
                 if key != '__class__':
                     setattr(self, key, value)
@@ -33,6 +35,11 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
             models.storage.new(self)
+
+
+    def __setattr__(self, name, value):
+        if name != '__class__':
+            super().__setattr__(name, value)
 
     def save(self):
         '''Updates updated_at with the current datetime.'''
@@ -57,7 +64,6 @@ class BaseModel:
         ''' Return the str/print rep of an instance of BaseModel class.'''
         return f'[{self.__class__.__name__}] ({(self.id)}) {self.__dict__}'
 
-    print(f'my name')
 
 def main():
     # Create a dictionary representation of a BaseModel instance

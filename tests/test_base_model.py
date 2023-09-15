@@ -163,7 +163,8 @@ class TestBaseModel_to_dict(unittest.TestCase):
 
         bm = BaseModel(**bm_dict)
         self.assertEqual(bm.id, '1234567890')
-        self.assertEqual(bm.created_at, '2023-09-13T14:30:00.000000')
+        self.assertEqual(type(bm.created_at), datetime)
+        self.assertIsInstance(bm.updated_at, datetime)
 
     def test_datetime_objects(self):
         '''Tests that created_at and updated_at are datetime pbjects'''
@@ -190,8 +191,8 @@ class TestBaseModel_to_dict(unittest.TestCase):
 
         bm = BaseModel(**bm_dict)
         self.assertEqual(bm.id, '1234567890')
-        self.assertFalse(hasattr(bm, '__class__')
+        self.assertFalse(hasattr(bm, '__class__'))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()
