@@ -3,8 +3,8 @@
 
 import os
 import unittest
-from datetime import datetime
 from time import sleep
+from datetime import datetime
 from models.base_model import BaseModel
 
 
@@ -65,6 +65,25 @@ class TestBaseModel_init(unittest.TestCase):
         self.assertEqual(bm.id, '123')
         self.assertEqual(bm.created_at, dt)
         self.assertEqual(bm.updated_at, dt)
+
+    def test_datetime_attributes(self):
+        '''Test that the created_at and updated_at are datetime attributes
+                        when init with **kwargs.'''
+        dt = datetime.now()
+        dt_isoformat = dt.isoformat()
+        bm = BaseModel(id='123', created_at=dt_isoformat,
+                       updated_at=dt_isoformat)
+        self.assertEqual(type(bm.created_at), datetime)
+        self.assertIsInstance(bm.updated_at, datetime)
+
+    def test_init_excludes_class_attributes(self):
+        '''Tests that '__class__' key from kwargs
+            is not added as an attribute.'''
+        dt = datetime.now()
+        dt_isoformat = dt.isoformat()
+        bm = BaseModel(id='123', created_at=dt_isoformat,
+                       updated_at=dt_isoformat, __class__='BaseModel')
+        self.assertNotEqual(bm.__class__, 'BaseModel')
 
     def test_init_with_None_kwargs(self):
         '''Test __init__ methods with kwargs whose values are None.'''
@@ -193,7 +212,7 @@ class TestBaseModel_to_dict(unittest.TestCase):
         self.assertDictEqual(bm.to_dict(), expected_dict)
 
     def test_datetime_attribute_value_type(self):
-        '''Tests if created_at and updated_at are strings.'''
+        '''Tests if created_at and updated_at values  are strings.'''
         bm = BaseModel()
         bm_dict = bm.to_dict()
         self.assertEqual(type(bm_dict['created_at']), str)

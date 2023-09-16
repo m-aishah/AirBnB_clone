@@ -6,7 +6,8 @@ from models.base_model import BaseModel
 
 
 class FileStorage:
-    '''Serializes/desirializes instances of BaseModel class to/from a JSON file.
+    '''Serializes/desirializes instances of BaseModel class
+            to/from a JSON file.
 
     Attributes:
         __file_path (str): Path to JSON file (ex: file.json)
@@ -34,10 +35,10 @@ class FileStorage:
 
     def save(self):
         '''Serializes __objects to the JSON file.'''
-        #Convert the values of __objects to dictionaries.
+        # Convert the values of __objects to dictionaries.
         objects = FileStorage.__objects
         objects_dict = {obj: objects[obj].to_dict() for obj in objects.keys()}
-        #JSON dump into the file
+        # JSON dump into the file
         with open(FileStorage.__file_path, 'w', encoding='utf-8') as f:
             json.dump(objects_dict, f)
 

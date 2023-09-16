@@ -2,8 +2,9 @@
 '''Defines the BaseModel class.'''
 
 import uuid
-from datetime import datetime
 import models
+from datetime import datetime
+
 
 class BaseModel:
     '''Forms the base class from which other classes will inherit.'''

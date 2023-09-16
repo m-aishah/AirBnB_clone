@@ -9,6 +9,7 @@ from datetime import datetime
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 
+
 class TestFileStorage_init(unittest.TestCase):
     '''Unittests for the __init__ method of the FileStorage class.'''
 
@@ -35,7 +36,7 @@ class TestFileStorage_init(unittest.TestCase):
         self.assertEqual(type(FileStorage._FileStorage__objects), dict)
 
     def test_storage_initializes(self):
-        '''Test storage is initialized as an instance of the FileStorage class.'''
+        '''Test storage initialized as an instance of the FileStorage class.'''
         self.assertEqual(type(models.storage), FileStorage)
 
 
@@ -44,27 +45,27 @@ class TestFileStorage_all(unittest.TestCase):
 
     @classmethod
     def SetUp(self):
-        #If file.json exists rename it as tmp before carrying out the tests.
+        # If file.json exists rename it as tmp before carrying out the tests.
         try:
-            os.rename('file.json', 'tmp')
-        except FileNotFoundError:
+            os.rename("file.json", "tmp")
+        except IOError:
             pass
 
     @classmethod
     def TearDown(self):
-        #If after the tests, file.json exists, delete it.
+        # If after the tests, file.json exists, delete it.
         try:
-            os.remove('file.json')
-        except FileNotFoundError:
+            os.remove("file.json")
+        except IOError:
             pass
 
-        #If a file.json was renamed tmp during SetUp, rename it back to its original.
+        # If a file.json was renamed tmp during SetUp,
+        # rename it back to its original.
         try:
-            os.rename('tmp', 'file.json')
-        except FileNotFoundError:
+            os.rename("tmp", "file.json")
+        except IOError:
             pass
         FileStorage._FileStorage__objects = {}
-
 
     def test_all(self):
         '''Test that all method returns a dictionary.'''
@@ -90,22 +91,21 @@ class TestFileStorage_new(unittest.TestCase):
     '''Unittests for the public instance method - new().'''
 
     @classmethod
-    def SetUp(self):
+    def setUp(self):
         try:
-            os.rename('file.json', 'tmp')
-        except FileNotFoundError:
+            os.rename("file.json", "tmp")
+        except IOError:
             pass
 
     @classmethod
-    def TearDown(self):
+    def tearDown(self):
         try:
-            os.remove('file.json')
-        except FileNotFoundError:
+            os.remove("file.json")
+        except IOError:
             pass
-
         try:
-            os.rename('tmp', 'file.json')
-        except FileNotFoundError:
+            os.rename("tmp", "file.json")
+        except IOError:
             pass
         FileStorage._FileStorage__objects = {}
 
@@ -128,7 +128,7 @@ class TestFileStorage_new(unittest.TestCase):
         '''Test the new method with a dict argument'''
         with self.assertRaises(AttributeError):
             models.storage.new({'id': '1234', 'created_at': datetime.now(),
-                'updated_at': datetime.now()})
+                                'updated_at': datetime.now()})
 
     def test_new(self):
         '''Test the new method.'''
@@ -143,22 +143,21 @@ class TestFileStorage_save(unittest.TestCase):
     '''Unittests for the public instance method - save().'''
 
     @classmethod
-    def SetUp(self):
+    def setUp(self):
         try:
-            os.rename('file.json', 'tmp')
-        except FileNotFoundError:
+            os.rename("file.json", "tmp")
+        except IOError:
             pass
 
     @classmethod
-    def TearDown(self):
+    def tearDown(self):
         try:
-            os.remove('file.json')
-        except FileNotFoundError:
+            os.remove("file.json")
+        except IOError:
             pass
-
         try:
-            os.rename('tmp', 'file.json')
-        except FileNotFoundError:
+            os.rename("tmp", "file.json")
+        except IOError:
             pass
         FileStorage._FileStorage__objects = {}
 
@@ -199,22 +198,21 @@ class TestFileStorage_reload(unittest.TestCase):
     '''Unittests for the public instance method - reload().'''
 
     @classmethod
-    def SetUp(self):
+    def setUp(self):
         try:
-            os.rename('file.json', 'tmp')
-        except FileNotFoundError:
+            os.rename("file.json", "tmp")
+        except IOError:
             pass
 
     @classmethod
-    def TearDown(self):
+    def tearDown(self):
         try:
-            os.remove('file.json')
-        except FileNotFoundError:
+            os.remove("file.json")
+        except IOError:
             pass
-
         try:
-            os.rename('tmp', 'file.json')
-        except FileNotFoundError:
+            os.rename("tmp", "file.json")
+        except IOError:
             pass
         FileStorage._FileStorage__objects = {}
 
@@ -241,13 +239,9 @@ class TestFileStorage_reload(unittest.TestCase):
         with self.assertRaises(TypeError):
             models.storage.reload(None)
 
-    #def test_reload_no_json_file(self):
-     #   '''Test the reload method when the json file does not exist.'''
-      #  with self.assertRaises(FileNotFoundError):
-       #     models.storage.reload()
-
-
-        
+    def test_reload_no_json_file(self):
+        '''Test the reload method when the json file does not exist.'''
+        self.assertIsNone(models.storage.reload())
 
 
 if __name__ == '__main__':
