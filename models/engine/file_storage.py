@@ -1,4 +1,4 @@
-#!/usr/bin/env python 3
+#!/usr/bin/python 3
 '''Defines a new class called FileStorage.'''
 
 import json

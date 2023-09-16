@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 ''' Defines unittests for models/base_model.py. '''
 
 import os
