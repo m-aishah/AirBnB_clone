@@ -7,6 +7,11 @@ import unittest
 import models
 from datetime import datetime
 from models.base_model import BaseModel
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 from models.engine.file_storage import FileStorage
 
 
@@ -84,7 +89,17 @@ class TestFileStorage_all(unittest.TestCase):
     def test_correct_output(self):
         '''Test that the all method returns the correct dictionary.'''
         bm = BaseModel()
+        state = State()
+        city = City()
+        amenity = Amenity()
+        place = Place()
+        review = Review()
         self.assertIn('BaseModel.' + bm.id, models.storage.all().keys())
+        self.assertIn('State.' + state.id, models.storage.all().keys())
+        self.assertIn('City.' + city.id, models.storage.all().keys())
+        self.assertIn('Amenity.' + amenity.id, models.storage.all().keys())
+        self.assertIn('Place.' + place.id, models.storage.all().keys())
+        self.assertIn('Review.' + review.id, models.storage.all().keys())
 
 
 class TestFileStorage_new(unittest.TestCase):
@@ -133,10 +148,31 @@ class TestFileStorage_new(unittest.TestCase):
     def test_new(self):
         '''Test the new method.'''
         bm = BaseModel()
+        state = State()
+        city = City()
+        amenity = Amenity()
+        place = Place()
+        review = Review()
         models.storage.new(bm)
+        models.storage.new(state)
+        models.storage.new(city)
+        models.storage.new(amenity)
+        models.storage.new(place)
+        models.storage.new(review)
         objects = models.storage.all()
         self.assertIn('BaseModel.' + bm.id, objects.keys())
+        self.assertIn('State.' + state.id, models.storage.all().keys())
+        self.assertIn('City.' + city.id, models.storage.all().keys())
+        self.assertIn('Amenity.' + amenity.id, models.storage.all().keys())
+        self.assertIn('Place.' + place.id, models.storage.all().keys())
+        self.assertIn('Review.' + review.id, models.storage.all().keys())
+
         self.assertIn(bm, objects.values())
+        self.assertIn(state, objects.values())
+        self.assertIn(city, objects.values())
+        self.assertIn(amenity, objects.values())
+        self.assertIn(place, objects.values())
+        self.assertIn(review, objects.values())
 
 
 class TestFileStorage_save(unittest.TestCase):
@@ -174,14 +210,14 @@ class TestFileStorage_save(unittest.TestCase):
     def test_save_two_objects(self):
         '''Test the save method with two objects.'''
         bm1 = BaseModel()
-        bm2 = BaseModel()
+        city = City()
         models.storage.save()
         with open('file.json', 'r', encoding='utf-8') as f:
             file_content = f.read()
             self.assertIn(json.dumps(bm1.to_dict()), file_content)
             self.assertIn('BaseModel.' + bm1.id, file_content)
-            self.assertIn(json.dumps(bm2.to_dict()), file_content)
-            self.assertIn('BaseModel.' + bm2.id, file_content)
+            self.assertIn(json.dumps(city.to_dict()), file_content)
+            self.assertIn('City.' + city.id, file_content)
 
     def test_save_with_arg(self):
         '''Test the save method with an argument.'''
@@ -219,11 +255,21 @@ class TestFileStorage_reload(unittest.TestCase):
     def test_reload(self):
         '''Test the reload method.'''
         bm = BaseModel()
+        state = State()
+        city = City()
+        amenity = Amenity()
+        place = Place()
+        review = Review()
         models.storage.save()
         FileStorage._FileStorage__objects = {}
         models.storage.reload()
         objects = models.storage.all()
         self.assertIn('BaseModel.' + bm.id, objects)
+        self.assertIn('State.' + state.id, objects)
+        self.assertIn('City.' + city.id, objects)
+        self.assertIn('Amenity.' + amenity.id, objects)
+        self.assertIn('Place.' + place.id, objects)
+        self.assertIn('Review.' + review.id, objects)
 
     def test_reload_one_arg(self):
         '''Test the reload method with one argument.'''

@@ -6,6 +6,11 @@ import re
 import models
 import json
 from models.base_model import BaseModel
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 def parse(args):
@@ -22,6 +27,14 @@ class HBNBCommand(cmd.Cmd):
     '''
 
     prompt = '(hbnb) '
+    __classes = [
+            'BaseModel',
+            'State',
+            'City',
+            'Amenity',
+            'Place',
+            'Review'
+            ]
 
     def emptyline(self):
         '''Do nothing upon receiving an empty line.'''
@@ -38,15 +51,14 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, line):
         '''Usage: (hbnb) create <class_name>
         Creates a new instance of a class, saves it and prints the id.'''
-        if line:
-            if line == 'BaseModel':
-                bm = BaseModel()
-                bm.save()
-                print(bm.id)
-            else:
-                print('** class doesn\'t exist **')
-        else:
+        args = parse(line)
+        if len(args) == 0:
             print('** class name missing **')
+        elif args[0] not in HBNBCommand.__classes:
+            print('** class doesn\'t exist **')
+        else:
+            m = eval(args[0])()
+            print(m.id)
 
     def do_show(self, line):
         '''Usage: (hbnb) show <class_name> <id>
@@ -56,7 +68,7 @@ class HBNBCommand(cmd.Cmd):
         objects = models.storage.all()
         if len(args) == 0:
             print('** class name missing **')
-        elif args[0] != 'BaseModel':
+        elif args[0] not in HBNBCommand.__classes:
             print('** class doesn\'t exist **')
         elif len(args) == 1:
             print('** instance id missing **')
@@ -74,7 +86,7 @@ class HBNBCommand(cmd.Cmd):
 
         if len(args) == 0:
             print('** class name missing **')
-        elif args[0] != 'BaseModel':
+        elif args[0] not in HBNBCommand.__classes:
             print('** class doesn\'t exist **')
         elif len(args) == 1:
             print('** instance id missing **')
@@ -90,15 +102,15 @@ class HBNBCommand(cmd.Cmd):
         If no class is given, all instances are printed.
         '''
         args = parse(line)
-        if len(args) > 0 and args[0] != 'BaseModel':
+        if len(args) > 0 and args[0] not in HBNBCommand.__classes:
             print('** class doesn\'t exist **')
         else:
             objects = models.storage.all()
             output = []
             for obj in objects.values():
-                if len(args) > 0 and args[0] == obj.__class__.__name__:
+                if len(args) > 0 and obj.__class__.__name__ == args[0]:
                     output.append(obj.__str__())
-                else:
+                elif len(args) == 0:
                     output.append(obj.__str__())
             print(output)
 
@@ -110,7 +122,7 @@ class HBNBCommand(cmd.Cmd):
         objects = models.storage.all()
         if len(args) == 0:
             print('** class name missing **')
-        elif args[0] != 'BaseModel':
+        elif args[0] not in HBNBCommand.__classes:
             print('** class doesn\'t exist **')
         elif len(args) == 1:
             print('** instance id missing **')
