@@ -3,7 +3,7 @@
 
 import json
 from models.base_model import BaseModel
-
+from models.user import User
 
 class FileStorage:
     '''Serializes/desirializes instances of BaseModel class
@@ -52,6 +52,11 @@ class FileStorage:
                 objects_dict = json.load(f)
                 for obj in objects_dict.values():
                     class_name = obj['__class__']
-                    self.new(eval(class_name)(**obj))
+
+                    if class_name == 'User':
+                        user = User(**obj_data)
+                        self.new(user)
+                    else:
+                        self.new(eval(class_name)(**obj))
         except FileNotFoundError:
             return
