@@ -5,6 +5,7 @@ import cmd
 import re
 import models
 import json
+from shlex import split
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -40,6 +41,27 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         '''Do nothing upon receiving an empty line.'''
         pass
+
+    def default(self, line):
+        '''This method runs when an invalid command is inputted.'''
+        commands = {
+            'all': self.do_all,
+            'show': self.do_show,
+            'destroy':self.do_destroy,
+            'update': self.do_update
+        }
+        pattern = r'\.'
+        match = re.search(pattern, line)
+        if match is not None:
+            args_list = [line[:match.span()[0]], line[match.span()[1]:]]
+            pattern = r'\((.*?)\)'
+            match = re.search(pattern, args_list[1])
+            if match is not None:
+                command = [args_list[1][:match.span()[0]], match.group()[1:-1]]
+                if command[0] in commands.keys():
+                    s = '{} {}'.format(args_list[0], command[1])
+                    return commands[command[0]](s)
+        return cmd.Cmd.default(self, line)
 
     def do_quit(self, line):
         '''Quit command to exit the program.'''
