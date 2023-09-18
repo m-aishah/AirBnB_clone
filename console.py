@@ -15,10 +15,28 @@ from models.place import Place
 from models.review import Review
 
 
+#def parse(args):
+ #   '''Split the arguments into a list of words.'''
+  #  args_list = args.split()
+   # return args_list
+
 def parse(args):
     '''Split the arguments into a list of words.'''
-    args_list = args.split()
-    return args_list
+    curly_braces = re.search(r"\{(.*?)\}", args)
+    brackets = re.search(r"\[(.*?)\]", args)
+    if curly_braces is None:
+        if brackets is None:
+            return [i.strip(",") for i in split(args)]
+        else:
+            lexer = split(args[:brackets.span()[0]])
+            args_list = [i.strip(",") for i in lexer]
+            args_list.append(brackets.group())
+            return args_list
+    else:
+        lexer = split(args[:curly_braces.span()[0]])
+        args_list = [i.strip(",") for i in lexer]
+        args_list.append(curly_braces.group())
+        return args_list
 
 
 class HBNBCommand(cmd.Cmd):
