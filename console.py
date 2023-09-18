@@ -47,8 +47,9 @@ class HBNBCommand(cmd.Cmd):
         commands = {
             'all': self.do_all,
             'show': self.do_show,
-           'destroy':self.do_destroy,
-            'update': self.do_update
+            'destroy': self.do_destroy,
+            'update': self.do_update,
+            'count': self.do_count
         }
         pattern = r'\.'
         match = re.search(pattern, line)
@@ -174,6 +175,7 @@ class HBNBCommand(cmd.Cmd):
             if args[0] == obj.__class__.__name__:
                 count += 1
         print(count)
+
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
