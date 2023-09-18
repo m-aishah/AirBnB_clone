@@ -15,28 +15,10 @@ from models.place import Place
 from models.review import Review
 
 
-#def parse(args):
- #   '''Split the arguments into a list of words.'''
-  #  args_list = args.split()
-   # return args_list
-
 def parse(args):
     '''Split the arguments into a list of words.'''
-    curly_braces = re.search(r"\{(.*?)\}", args)
-    brackets = re.search(r"\[(.*?)\]", args)
-    if curly_braces is None:
-        if brackets is None:
-            return [i.strip(",") for i in split(args)]
-        else:
-            lexer = split(args[:brackets.span()[0]])
-            args_list = [i.strip(",") for i in lexer]
-            args_list.append(brackets.group())
-            return args_list
-    else:
-        lexer = split(args[:curly_braces.span()[0]])
-        args_list = [i.strip(",") for i in lexer]
-        args_list.append(curly_braces.group())
-        return args_list
+    args_list = args.split()
+    return args_list
 
 
 class HBNBCommand(cmd.Cmd):
@@ -61,26 +43,26 @@ class HBNBCommand(cmd.Cmd):
         '''Do nothing upon receiving an empty line.'''
         pass
 
-    def default(self, line):
-        '''This method runs when an invalid command is inputted.'''
-        commands = {
-            'all': self.do_all,
-            'show': self.do_show,
-            'destroy':self.do_destroy,
-            'update': self.do_update
-        }
-        pattern = r'\.'
-        match = re.search(pattern, line)
-        if match is not None:
-            args_list = [line[:match.span()[0]], line[match.span()[1]:]]
-            pattern = r'\((.*?)\)'
-            match = re.search(pattern, args_list[1])
-            if match is not None:
-                command = [args_list[1][:match.span()[0]], match.group()[1:-1]]
-                if command[0] in commands.keys():
-                    s = '{} {}'.format(args_list[0], command[1])
-                    return commands[command[0]](s)
-        return cmd.Cmd.default(self, line)
+#    def default(self, line):
+#        '''This method runs when an invalid command is inputted.'''
+#        commands = {
+#            'all': self.do_all,
+#            'show': self.do_show,
+#            'destroy':self.do_destroy,
+#            'update': self.do_update
+#        }
+#        pattern = r'\.'
+#        match = re.search(pattern, line)
+#        if match is not None:
+#            args_list = [line[:match.span()[0]], line[match.span()[1]:]]
+#            pattern = r'\((.*?)\)'
+#            match = re.search(pattern, args_list[1])
+#            if match is not None:
+#                command = [args_list[1][:match.span()[0]], match.group()[1:-1]]
+#                if command[0] in commands.keys():
+#                    s = '{} {}'.format(args_list[0], command[1])
+#                    return commands[command[0]](s)
+#        return cmd.Cmd.default(self, line)
 
     def do_quit(self, line):
         '''Quit command to exit the program.'''
