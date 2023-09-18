@@ -146,16 +146,22 @@ class HBNBCommand(cmd.Cmd):
         objects = models.storage.all()
         if len(args) == 0:
             print('** class name missing **')
+            return False
         elif args[0] not in HBNBCommand.__classes:
             print('** class doesn\'t exist **')
+            return False
         elif len(args) == 1:
             print('** instance id missing **')
+            return False
         elif '{}.{}'.format(args[0], args[1]) not in objects:
             print('** no instance found **')
+            return False
         elif len(args) == 2:
             print('** attribute name missing **')
+            return False
         elif len(args) == 3:
             print('** value missing **')
+            return False
         elif len(args) > 3:
             obj = objects['{}.{}'.format(args[0], args[1])]
             if args[2] in obj.__class__.__dict__.keys():
