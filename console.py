@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
             objects = models.storage.all()
             output = []
             for obj in objects.values():
-                if len(args) > 0 and obj.__class__.__name__ == args[0]:
+                if len(args) > 0 and args[0] == obj.__class__.__name__:
                     output.append(obj.__str__())
                 elif len(args) == 0:
                     output.append(obj.__str__())
